@@ -147,9 +147,26 @@
         </div>
     </header>
     <main>
-        <div class="movie-section">
-            <img src="./images/main-baner.png" alt="">
-        </div>
+          <section class="movie-section">
+        <div class="video-container">
+            <!-- تصویر اولیه -->
+            <img src="./images/main-baner.png" alt="ایران پاور پلانت ریپیرز" class="hero-image" id="heroImage">
+            
+          <!-- ویدیو پس‌زمینه -->
+            <video 
+                class="hero-video" 
+                id="heroVideo" 
+                muted 
+                loop
+                playsinline
+                preload="auto"
+                controls="false"
+                poster="/api/placeholder/1920/1080"
+            >
+                <source src="./sample-video.mp4" type="video/mp4">
+              
+            </video>
+        </section>
         <section class="about-sec mt-lg-5">
             <div class="container-fluid px-0">
                 <div class="row col-xl-10">
@@ -177,18 +194,16 @@
                                     <img src="./images/read-more.png" alt="">
                                     <span>بیشتر بخوانید</span>
                                 </div>
-                                <div class="watch-video me-5">
+                                <div class="watch-video me-5 " data-video="./sample-video.mp4">
                                     <img src="./images/watch-video.png" alt="">
                                     <span>تماشای ویدیو</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+
                 </div>
-            </div>
-        </section>
-           <section class="activities-sec mt-lg-5">
-            <div class="container-fluid px-0">
                 <div class="row col-xl-10">
                     <div class="col-lg-6 ">
                         <div class="about-text">
@@ -213,7 +228,7 @@
                                     <img src="./images/read-more.png" alt="">
                                     <span>بیشتر بخوانید</span>
                                 </div>
-                                <div class="watch-video me-5">
+                                <div class="watch-video me-5" data-video="./sample-video.mp4">
                                     <img src="./images/watch-video.png" alt="">
                                     <span>تماشای ویدیو</span>
                                 </div>
@@ -225,8 +240,25 @@
                     </div>
                     
                 </div>
+                <div class="video-modal" id="videoModal">
+                    <div class="video-modal-content">
+                        <div class="video-modal-header">
+                            <button class="video-modal-close" id="closeVideoModal"></button>
+                        </div>
+                        
+                        
+                        <video 
+                            class="video-modal-video" 
+                            id="modalVideo" 
+                            controls 
+                            preload="none"
+                            style="display: none;">
+                        </video>
+                    </div>
+                </div>
             </div>
         </section>
+       
         <section class="services-sec mt-lg-5">
             <div class="container-fluid px-0">
                 <div class="row col-xl-11">
@@ -300,8 +332,16 @@
                     <div class="title-sec">
                         <h3>پروژه های بهره وری</h3>
                     </div>
-                    <div class="map-sec">
+                    <div class="map-container">
                          <img src="./images/map.png" alt="">
+                         <div class="map-point sem" 
+                            data-city="سمنان" 
+                            data-projects="15">
+                        </div>
+                         <div class="map-point teh" 
+                            data-city="تهران" 
+                            data-projects="15">
+                        </div>
                     </div>
                 </div>
             </div>
