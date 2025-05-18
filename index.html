@@ -14,7 +14,7 @@
         <div class="header-top py-2 text-center">
             <span>سرمایه گذاری برای تولید</span>
         </div>
-        <div class="header-bottom py-3">
+         <div class="header-bottom py-3">
            <div class="container-fluid px-0">
                 <div class="row col-xl-11">
                     <div class="col-lg-3">
@@ -24,70 +24,132 @@
                         <div class="main-nav">
                             <nav class="main-nav d-none d-lg-block">
                                     <ul>
-                                        <li>
+                                        <li class="nav-item">
                                             <a href="#">
                                                 <span>خدمات</span>
                                             </a>
                                         </li>
-                                        <li class="has-megamenu" data-megamenu-target="#products-mega-menu">
+                                        <li class="has-megamenu nav-item" data-megamenu-target="#products-mega-menu">
                                             <a href="#">
                                                 <span>مزایده و مناقصه</span>
-                                                
                                             </a>
                                         </li>
-                                        <li class="has-megamenu" data-megamenu-target="#services-mega-menu">
+                                        <li class="has-megamenu nav-item" data-megamenu-target="#services-mega-menu">
                                             <a href="#">
                                                 <span>پرتال خبری</span>
-                                               
                                             </a>
                                         </li>
-                                        <li class="has-megamenu" data-megamenu-target="#services-mega-menu">
-                                            <a href="#">
-                                                <span>پرتال خبری</span>
-                                                
-                                            </a>
-                                        </li>
-                                        <li class="has-submenu">
+                                        <li class="has-submenu nav-item">
                                             <a href="#">
                                                 <span class="">فرصت های شغلی</span>
-                                                
                                             </a>
-                                            <div class="sm-sub-menu p-2">
-                                                <div class="about-sub-menu-item p-2 mb-2">زیر منو تستی</div>
-                                                <div class="about-sub-menu-item p-2 mb-2">زیر منو تستی</div>
-                                                <div class="about-sub-menu-item p-2 mb-2">زیر منو تستی</div>
-                                                <div class="about-sub-menu-item p-2 mb-2">زیر منو تستی</div>
-                                            </div>
+                                            
                                         </li>
-                                        <li>
+                                        <li class="has-submenu nav-item">
                                             <a href="#">
                                                 <span>درباره ما</span>
                                             </a>
+                                            <div class="image-sub-menu">
+                                                <div class="sub-menu-content">
+                                                    <div class="sub-menu-items">
+                                                        <div class="sub-menu-item">
+                                                            <a href="#">تاریخچه شرکت</a>
+                                                        </div>
+                                                        <div class="sub-menu-item">
+                                                            <a href="#">چشم انداز و اهداف</a>
+                                                        </div>
+                                                        <div class="sub-menu-item">
+                                                            <a href="#">گواهینامه ها</a>
+                                                        </div>
+                                                        <div class="sub-menu-item">
+                                                            <a href="#">تیم مدیریت</a>
+                                                        </div>
+                                                        <div class="sub-menu-item">
+                                                            <a href="#">ساختار سازمانی</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="sub-menu-image">
+                                                        <img src="./images/about-submenu.jpg" alt="درباره ما">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </li>
-                                        <li>
+                                        <li class="has-submenu nav-item">
                                             <a href="#">
                                                 <span>تماس با ما</span>
                                             </a>
+                                            <div class="image-sub-menu">
+                                                <div class="sub-menu-content">
+                                                    <div class="sub-menu-items">
+                                                        <div class="sub-menu-item">
+                                                            <a href="#">دفتر مرکزی</a>
+                                                        </div>
+                                                        <div class="sub-menu-item">
+                                                            <a href="#">شعب استانی</a>
+                                                        </div>
+                                                        <div class="sub-menu-item">
+                                                            <a href="#">پشتیبانی آنلاین</a>
+                                                        </div>
+                                                        <div class="sub-menu-item">
+                                                            <a href="#">فرم تماس</a>
+                                                        </div>
+                                                        <div class="sub-menu-item">
+                                                            <a href="#">درخواست مشاوره</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="sub-menu-image">
+                                                        <img src="./images/contact-submenu.jpg" alt="تماس با ما">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </li>
                                     </ul>
-                                    
-                                    
                                 </nav>
                         </div>
-                        <div class="lang">
+                        <div class="lang has-submenu">
                             <img src="./images/flag.png" alt="">
                             <span>فارسی</span>
                             <img src="./images/flesh-down.png" alt="">
+                            <div class="lang-sub-menu">
+                                <div class="lang-item">
+                                    <img src="./images/flag-ir.png" alt="فارسی">
+                                    <span>فارسی</span>
+                                </div>
+                                <div class="lang-item">
+                                    <img src="./images/flag-en.png" alt="English">
+                                    <span>English</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="search me-4">
-                            <img src="./images/search.png" alt="">
+                            <div class="search me-4">
+                            <div class="search-icon" onclick="toggleSearch()">
+                                <img src="./images/search.png" alt="">
+                            </div>
+                            <div class="search-dropdown" id="searchDropdown">
+                                <div class="search-container">
+                                    <input type="text" class="search-input" placeholder="جستجو کنید...">
+                                    <button class="search-btn">
+                                        <img src="./images/search.png" alt="جستجو">
+                                    </button>
+                                </div>
+                                <div class="search-suggestions">
+                                    <div class="search-suggestion">خدمات تعمیرات</div>
+                                    <div class="search-suggestion">قطعات یدکی</div>
+                                    <div class="search-suggestion">مناقصه ها</div>
+                                    <div class="search-suggestion">اخبار شرکت</div>
+                                </div>
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
            </div>
         </div>
     </header>
     <main>
+        <div class="movie-section">
+            <img src="./images/main-baner.png" alt="">
+        </div>
         <section class="about-sec mt-lg-5">
             <div class="container-fluid px-0">
                 <div class="row col-xl-10">
@@ -253,40 +315,48 @@
                     <div class="row col-xl-10">
                         <div class="col-6 mb-lg-4">
                            <div class="news-item position-relative">
-                             <img src="./images/news1.png" alt="">
+                            <a href="#">
+                                 <img src="./images/news1.png" alt="">
                             <div class="news-txt">
                                 <h3>لورم ایپسوم متن</h3>
                                 <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ است</p>
                             </div>
+                            </a>
                            </div>
                         </div>
                          <div class="col-6 mb-lg-4">
                            <div class="news-item position-relative">
-                             <img src="./images/news2.png" alt="">
+                             <a href="#">
+                                <img src="./images/news2.png" alt="">
                             <div class="news-txt">
                                 <h3>لورم ایپسوم متن</h3>
                                 <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ است</p>
                             </div>
+                             </a>
                            </div>
                         </div>
                     </div>
                         <div class="row col-xl-10">
                         <div class="col-6 ">
                            <div class="news-item position-relative">
-                             <img src="./images/news3.png" alt="">
+                            <a href="#">
+                                 <img src="./images/news3.png" alt="">
                             <div class="news-txt">
                                 <h3>لورم ایپسوم متن</h3>
                                 <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ است</p>
                             </div>
+                            </a>
                            </div>
                         </div>
                          <div class="col-6 ">
                            <div class="news-item position-relative">
-                             <img src="./images/news4.png" alt="">
+                            <a href="#">
+                                 <img src="./images/news4.png" alt="">
                             <div class="news-txt">
                                 <h3>لورم ایپسوم متن</h3>
                                 <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ است</p>
                             </div>
+                            </a>
                            </div>
                         </div>
                     </div>
