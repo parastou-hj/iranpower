@@ -15,7 +15,7 @@
 <body>
     <header>
         <div class="header-top py-2 text-center">
-            <span>سرمایه گذاری برای تولید</span>
+           <img src="./images/shoar.png" alt="">
         </div>
          <div class="header-bottom py-3">
            <div class="container-fluid px-0">
@@ -145,7 +145,7 @@
                             </div>
                         </div>
                      
-                        <div class="mobile-menu-toggle">
+                        <div class="mobile-menu-toggle"   id="mobileMenuToggle">
                             <span></span>
                             <span></span>
                             <span></span>
@@ -157,6 +157,112 @@
                 </div>
            </div>
         </div>
+        <!-- Mobile Side Menu -->
+    <div class="mobile-side-menu" id="mobileSideMenu">
+        <!-- Menu Header -->
+        <div class="mobile-menu-header d-flex align-items-center justify-content-between">
+          
+            <div class="mobile-logo">
+                <img src="./images/logo.png" alt="لوگو" id="mobileLogo">
+            </div>
+              <button class="mobile-menu-close" id="mobileMenuClose">
+                <i class="fas fa-times"></i>
+            </button>
+           
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="mobile-menu-nav">
+            <!-- خدمات -->
+            <div class="mobile-menu-item">
+                <a href="#" class="mobile-menu-link">
+                    <i class="fas fa-cogs mobile-menu-icon"></i>
+                    <span>خدمات</span>
+                </a>
+            </div>
+
+            <!-- مزایده و مناقصه -->
+            <div class="mobile-menu-item">
+                <a href="#" class="mobile-menu-link">
+                    <i class="fas fa-gavel mobile-menu-icon"></i>
+                    <span>مزایده و مناقصه</span>
+                </a>
+            </div>
+
+            <!-- پرتال خبری -->
+            <div class="mobile-menu-item">
+                <a href="#" class="mobile-menu-link">
+                    <i class="fas fa-newspaper mobile-menu-icon"></i>
+                    <span>پرتال خبری</span>
+                </a>
+            </div>
+
+            <!-- فرصت های شغلی -->
+            <div class="mobile-menu-item">
+                <a href="#" class="mobile-menu-link">
+                    <i class="fas fa-briefcase mobile-menu-icon"></i>
+                    <span>فرصت های شغلی</span>
+                </a>
+            </div>
+
+            <!-- درباره ما -->
+            <div class="mobile-menu-item has-submenu">
+                <a href="#" class="mobile-menu-link" data-submenu="about">
+                    <i class="fas fa-info-circle mobile-menu-icon"></i>
+                    <span>درباره ما</span>
+                    <i class="fas fa-chevron-down mobile-dropdown-arrow"></i>
+                </a>
+                <div class="mobile-submenu">
+                    <a href="#" class="mobile-submenu-item">تاریخچه شرکت</a>
+                    <a href="#" class="mobile-submenu-item">چشم انداز و اهداف</a>
+                    <a href="#" class="mobile-submenu-item">گواهینامه ها</a>
+                    <a href="#" class="mobile-submenu-item">تیم مدیریت</a>
+                    <a href="#" class="mobile-submenu-item">ساختار سازمانی</a>
+                </div>
+            </div>
+
+            <!-- تماس با ما -->
+            <div class="mobile-menu-item has-submenu">
+                <a href="#" class="mobile-menu-link" data-submenu="contact">
+                    <i class="fas fa-phone mobile-menu-icon"></i>
+                    <span>تماس با ما</span>
+                    <i class="fas fa-chevron-down mobile-dropdown-arrow"></i>
+                </a>
+                <div class="mobile-submenu">
+                    <a href="#" class="mobile-submenu-item">دفتر مرکزی</a>
+                    <a href="#" class="mobile-submenu-item">شعب استانی</a>
+                    <a href="#" class="mobile-submenu-item">پشتیبانی آنلاین</a>
+                    <a href="#" class="mobile-submenu-item">فرم تماس</a>
+                    <a href="#" class="mobile-submenu-item">درخواست مشاوره</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Search -->
+        <div class="mobile-search">
+            <div class="mobile-search-container">
+                <input type="text" class="mobile-search-input" placeholder="جستجو کنید...">
+                <button class="mobile-search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Language Selector -->
+        <div class="mobile-language-selector">
+            <div class="mobile-language-item" data-lang="fa">
+                <img src="/images/flag.png" alt="فارسی">
+                <span>فارسی</span>
+            </div>
+            <div class="mobile-language-item" data-lang="en">
+                <img src="/images/Flag_of_the_United_Kingdom.png" alt="English">
+                <span>English</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
 
     </header>
     <main>
