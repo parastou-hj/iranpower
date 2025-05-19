@@ -35,13 +35,16 @@
     font-size: 15px;
   
 }
+a{
+    text-decoration: none;
+}
 header{
   position: fixed;
   width: 100%;
   top: 0;
   right: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 1002;
 }
   .container-fluid .row{
     max-width: 1678px;
@@ -459,7 +462,38 @@ header{
             overflow: hidden;
             background: #fff;
         }
-
+        .baner-down{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+        .baner-down img{
+            width: 100%;
+          
+        }
+        .down-btn{
+            position: absolute;
+            width: 50px;
+            left: calc(50% - 50px);
+            bottom: 0px;
+            z-index: 1001;
+            background-color: #ffffffa8;
+            padding: 10px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+        }
+        .down-btn img{
+              background-color: var(--primary-color);
+            padding: 25px 20px;
+            border-radius: 50%;
+        }
         .video-container {
             position: relative;
             width: 100%;
@@ -602,29 +636,26 @@ header{
   .services{
 
   }
-  /* استایل برای title-sec */
 .title-sec {
     position: relative;
-    text-align: center;
     margin-bottom: 40px;
+    padding: 5px 0px;
 }
 
 .title-sec h3 {
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
     color: #333;
     font-size: 1.8rem;
     font-weight: bold;
 }
 
-/* خط زیر عنوان */
 .title-sec::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
+    right: 5;
+    width: 120px;
+    height: 5px;
     background: linear-gradient(90deg, #7ED0C3, #5CB3A5);
     border-radius: 2px;
 }
@@ -634,7 +665,7 @@ header{
     content: '';
     position: absolute;
     bottom: 0px;
-    left: calc(50% - 50px);
+    right: 135px;
     width: 8px;
     height: 8px;
     background: #7ED0C3;
@@ -829,6 +860,98 @@ header{
   top:26%;
   right: 54%;
 
+}
+.zanjan{
+    position: absolute;
+  top:22%;
+  right: 63%;
+}
+.hamedan{
+    position: absolute;
+  top:29%;
+  right: 63%;
+}
+.lorestan{
+    position: absolute;
+  top:35%;
+  right: 63%;
+}
+.kermanshah{
+    position: absolute;
+  top:31%;
+  right: 69%;
+}
+.khozestan{
+    position: absolute;
+  top:42%;
+  right: 61%;
+}
+.booshehr{
+position: absolute;
+  top:55%;
+  right: 57%;
+}
+.booshehr-2{
+position: absolute;
+  top:61%;
+  right: 55%;
+}
+.fars{
+position: absolute;
+  top:55%;
+  right: 50%;
+}
+.hormoz{
+position: absolute;
+  top:65%;
+  right: 40%;
+}
+.chabahar{
+    position: absolute;
+  top:73%;
+  right: 23.5%;
+}
+.pakistan{
+    position: absolute;
+  top:58%;
+  right: 15%;
+}
+.iraq{
+position: absolute;
+  top:50%;
+  right: 72%;
+}
+.syria{
+    position: absolute;
+  top:23%;
+  right: 87%;
+}
+
+
+.azarbayjan{
+    position: absolute;
+  top:14%;
+  right: 69%;
+}
+.razavi{
+     position: absolute;
+  top:29%;
+  right: 37%;
+}
+.khorasan{
+    position: absolute;
+  top:42%;
+  right: 35%;
+}
+.yazd{
+position: absolute;
+  top:45%;
+  right: 45%;
+}
+.esf{
+    position: absolute;
+  top:38%;
+  right: 53%;
 }
   .projects{
     background-color:hsl(0deg 0% 92.16%) ;
