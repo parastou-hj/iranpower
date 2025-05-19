@@ -1,0 +1,218 @@
+
+:root{
+    --primary-color:hsl(160.88deg 43.96% 59.41%)
+}
+
+@media screen and (max-width:1200px){
+    .main-nav ul li {
+    margin-left: 10px;
+    position: relative;
+}
+.main-nav .nav-item > a{
+    padding: 10px;
+}
+
+ .header-logo img{
+width: 100%;
+ }
+ .percent-sec{
+    background-attachment: fixed;
+    background-image: url(./images/percent-back.png);
+    height: 350px;
+    background-position:center;
+    background-repeat: no-repeat;
+    font-size: 1.5em;
+    color: #fff;
+    
+  }
+}
+
+@media screen and (max-width:992px){
+    .menu-bar i{
+        color: #fff;
+    }
+    .movie-section{
+        height: 500px;
+    }
+    .mobile-menu-toggle {
+        display: flex;
+        margin-right: 0;
+        position: relative;
+        z-index: 100;
+    }
+    .about-img, .activity-img{
+        height: 380px;
+    }
+    .title-sec{
+        margin-bottom: 10px;
+    }
+    .title-sec h3 {
+    margin-top: 0px;
+    margin-bottom: 10px !important;
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.about-sec ul{
+    padding: 0px;
+}
+.activies ul{
+    padding-right: 10px;
+}
+.services{
+    flex-wrap: wrap;
+}
+.service-item{
+    width: 50%;
+}
+.percent-item span{
+    font-size: 1.8em;
+}
+
+.percent-sec{ 
+    height: 280px;
+    font-size: 1.2em;
+    
+  }
+  .up{
+      position: absolute;
+      left: 10px;
+      bottom: 0px;
+      cursor: pointer;
+    }
+    .news-item .news-txt {
+        right: 5%;
+        font-size: .9em;
+        width: 90%;
+    }
+ .news-item:hover .news-txt {
+   
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: translateY(0px);
+  }
+  .lang .flag{
+    display: none;
+  }
+  .loc-tel{
+    flex-direction: column;
+  }
+  .header-logo{
+    padding: 0px;
+  }
+  .search-icon{
+    padding: 0px;
+  }
+  .search-dropdown{
+    width: 300px;
+  }
+  /* Mobile menu toggle animation */
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+}
+@media screen and (max-width:576px){
+.baner-down{
+    display: none;
+}
+.down-btn{
+    display: none;
+}
+.about-img, .activity-img{
+    height: 250px;
+}
+.about-sec .title-sec{
+    margin-top: 20px;
+}
+.title-sec h3{
+    font-size: 1.2em;
+}
+.activies{
+    flex-direction: column-reverse;
+}
+.service-item{
+    width: auto;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+.service-img{
+    height: 180px;
+    min-height: 180px;
+    width: 180px;
+}
+ .owl-dots {
+                position: absolute;
+                margin: 0 !important;
+                bottom: -40px;
+                right: 45%;
+ }
+   .owl-dots .owl-dot span {
+            width: 8px !important;
+            height: 8px  !important;
+            margin: 2px ;
+            background-color: #dee2e6;
+            border-radius: 50%;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+ .owl-dots .owl-dot.active span {
+            background-color: var(--primary-color) !important;
+            width: 10px;
+            border-radius: 6px;
+        }
+.percents{
+    flex-direction: column;
+}
+.percent-sec{
+    height: 600px;
+    
+}
+.percent-item span{
+    font-size: 3em;
+}
+.percents .percent-item:not(:last-child){
+    margin-bottom: 35px;
+}
+.news-card{
+  width: auto;
+  /* margin:0px 10px; */
+ }
+   .news-item .news-txt {
+        /* right: 0; */
+        font-size: .9em;
+        width: 90%;
+    }
+.news-item:hover {
+    transform: translateY(0px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+.link-item{
+    padding: 30px 20px;
+    border: 1px solid rgb(163, 163, 163);
+    margin:0px 5px;
+    height: 140px;
+    min-height: 140px;
+    max-height: 140px;
+    border-radius: 15px;
+     transform: translateY(3px);
+    transition: transform 0.2s ease-in-out;
+  }
+  .location{
+      min-width: auto;
+    }
+  .loc-tel > div{
+    width: 100%;
+    text-align: right;
+  }
+ 
+}

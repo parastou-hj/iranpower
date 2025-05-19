@@ -212,8 +212,8 @@ $(document).ready(function(){
     $('#links-carousel').owlCarousel({
         rtl: true,
         loop: true,
-        margin: 10,
-        nav: true,
+        margin: 5,
+        // nav: true,
         dots: true,
         autoplay: true,
         autoplayTimeout: 3000,
@@ -526,4 +526,189 @@ $(document).ready(function(){
     
     // راه‌اندازی مودال ویدیو
     new VideoModal();
+});
+
+ function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+
+
+$(document).ready(function() {
+  const initializeOwlCarousel = () => {
+      const advantagesContainer=$('.services')
+      if (window.innerWidth > 576) {
+          if (typeof advantagesContainer.data('owl.carousel') != 'undefined') {
+              advantagesContainer.data('owl.carousel').destroy();
+            }
+            advantagesContainer.removeClass('owl-carousel');
+          
+      } else if(window.innerWidth <= 576) {
+          if (!$('.services').hasClass('owl-carousel')) {
+              $('.services').addClass('owl-carousel').owlCarousel({
+                  rtl: true,
+                  items: 1,
+                  // nav: true,
+                  dots: true,
+                  loop: true,
+                  autoplay: true,
+                  autoplayTimeout: 3000,
+                  autoplayHoverPause: true,
+                  // navText: [
+                  //     '<i class="fa-solid fa-chevron-right"></i>',
+                  //     '<i class="fa-solid fa-chevron-left"></i>'
+                  // ],
+                  responsive: {
+                     
+                      
+                  }
+              });
+             
+
+              
+          }
+      }
+  };
+
+  initializeOwlCarousel();
+  $(window).resize(initializeOwlCarousel);
+
+
+});
+
+$(document).ready(function() {
+  const initializeOwlCarousel = () => {
+      const advantagesContainer=$('.news')
+      if (window.innerWidth > 576) {
+          if (typeof advantagesContainer.data('owl.carousel') != 'undefined') {
+              advantagesContainer.data('owl.carousel').destroy();
+            }
+            advantagesContainer.removeClass('owl-carousel');
+          
+      } else if(window.innerWidth <= 576) {
+          if (!$('.news').hasClass('owl-carousel')) {
+              $('.news').addClass('owl-carousel').owlCarousel({
+                  rtl: true,
+                  items: 1,
+                //   margin:10,
+                  dots: true,
+                  loop: true,
+                //   autoplay: true,
+                //   autoplayTimeout: 3000,
+                  autoplayHoverPause: true,
+                  // navText: [
+                  //     '<i class="fa-solid fa-chevron-right"></i>',
+                  //     '<i class="fa-solid fa-chevron-left"></i>'
+                  // ],
+                  responsive: {
+                     
+                      
+                  }
+              });
+             
+
+              
+          }
+      }
+  };
+
+  initializeOwlCarousel();
+  $(window).resize(initializeOwlCarousel);
+
+
+});
+
+$(document).ready(function() {
+    $('.mobile-menu-toggle').on('click', function() {
+        $('.mobile-side-menu').addClass('active');
+        $('.mobile-menu-overlay').addClass('active');
+        $('body').addClass('menu-open');
+    });
+    
+    $('.mobile-menu-close, .mobile-menu-overlay').on('click', function() {
+        $('.mobile-side-menu').removeClass('active');
+        $('.mobile-menu-overlay').removeClass('active');
+        $('body').removeClass('menu-open');
+        $('.mobile-menu-toggle').removeClass('active')
+    });
+    
+    $('.mobile-side-menu .nav-item.has-megamenu > .nav-link').on('click', function(e) {
+        e.preventDefault();
+        $(this).parent().toggleClass('active');
+        $(this).find('.dropdown-indicator i').toggleClass('fa-chevron-down fa-chevron-up');
+    });
+    
+    // $('.mobile-category-item > a').on('click', function(e) {
+    //     e.preventDefault();
+    //     const $parent = $(this).parent();
+    //     const $submenu = $parent.find('.mobile-submenu');
+        
+    //     if ($submenu.length) {
+    //         if ($submenu.is(':visible')) {
+    //             $submenu.slideUp(300);
+    //             $parent.removeClass('active');
+    //             $(this).find('.dropdown-indicator i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+    //         } else {
+    //             $submenu.slideDown(300);
+    //             $parent.addClass('active');
+    //             $(this).find('.dropdown-indicator i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+    //         }
+    //     }
+    // });
+    
+    $(window).on('resize', function() {
+        if (window.innerWidth > 991) {
+            $('.mobile-side-menu').removeClass('active');
+            $('.mobile-menu-overlay').removeClass('active');
+            $('body').removeClass('menu-open');
+        }
+    });
+    
+    // 6. انیمیشن آیکون منوی موبایل
+    $('.mobile-menu-toggle').on('click', function() {
+        $(this).toggleClass('active');
+    });
+});
+$(document).ready(function() {
+    $('.nav-menu .nav-item.has-submenu > .nav-link').on('click', function(e) {
+        
+        if ($(this).attr('href') === '#') { 
+             e.preventDefault();
+        }
+
+        let $parentNavItem = $(this).closest('.nav-item.has-submenu');
+        let $submenu = $parentNavItem.find('> .nav-item-submenu'); 
+
+
+        $parentNavItem.toggleClass('active-accordion');
+        $submenu.slideToggle();
+    });
+
+    
+    $('.mobile-categories-list .mobile-category-item > a').on('click', function(e) {
+        if ($(this).attr('href') === '#') {
+            e.preventDefault();
+        }
+
+        let $parentCategoryItem = $(this).closest('.mobile-category-item');
+        let $categorySubmenu = $parentCategoryItem.find('> .mobile-submenu');
+
+    
+
+
+        $parentCategoryItem.toggleClass('active');
+        $categorySubmenu.slideToggle();
+
+        if ($parentCategoryItem.hasClass('active')) {
+            $categorySubmenu.find('.mobile-subcategory-list li').each(function(index) {
+                $(this).css('--item-index', index + 1); 
+            });
+        }
+    });
+
+    
+
 });
