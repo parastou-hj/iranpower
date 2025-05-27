@@ -1,21 +1,14 @@
-// کد شمارنده percent-sec
+
 class CounterAnimation {
     constructor() {
         this.percentSection = document.querySelector('.percent-sec');
         this.hasAnimated = false;
-        
-        this.countersData = [
-            { selector: '.percent-item:nth-child(1) span', target: 20, suffix: '%' },
-            { selector: '.percent-item:nth-child(2) span', target: 352, suffix: '' },
-            { selector: '.percent-item:nth-child(3) span', target: 72, suffix: '' },
-            { selector: '.percent-item:nth-child(4) span', target: 34, suffix: '%' }
-        ];
-        
+        this.counterItems = this.percentSection ? this.percentSection.querySelectorAll('.percent-item span') : [];
         this.init();
     }
     
     init() {
-        if (!this.percentSection) return;
+        if (!this.percentSection || this.counterItems.length === 0) return;
         
         this.setupObserver();
         window.addEventListener('scroll', () => this.checkScroll());
@@ -55,25 +48,28 @@ class CounterAnimation {
     }
     
     startAnimation() {
-        this.countersData.forEach((counterData, index) => {
+        Array.from(this.counterItems).forEach((item, index) => {
             setTimeout(() => {
-                this.animateCounter(counterData);
+                this.animateCounter(item);
             }, index * 200);
         });
     }
     
-    animateCounter(counterData) {
-        const element = document.querySelector(counterData.selector);
-        if (!element) return;
+    animateCounter(element) {
+        const fullText = element.textContent;
+        const matches = fullText.match(/(\d+)([^0-9]*)/);
         
-        const target = counterData.target;
-        const suffix = counterData.suffix;
+        if (!matches) return;
+        
+        const target = parseInt(matches[1]); 
+        const suffix = matches[2] || '';
+        
         const duration = 1500;
         const frameRate = 16;
         const totalFrames = duration / frameRate;
         
         let currentFrame = 0;
-        let currentValue = 1;
+        let currentValue = 1; 
         
         const timer = setInterval(() => {
             currentFrame++;
@@ -103,12 +99,32 @@ class CounterAnimation {
     }
 }
 
-// کد ویدیو پس‌زمینه خودکار
+document.addEventListener('DOMContentLoaded', function() {
+    new CounterAnimation();
+});
 class AutoVideoBackground {
     constructor() {
         this.heroImage = document.getElementById('heroImage');
         this.heroVideo = document.getElementById('heroVideo');
         this.loadingIndicator = document.getElementById('loadingIndicator');
+        
+        this.isSequential = this.heroVideo ? this.heroVideo.dataset.sequential === 'true' : false;
+        
+        this.videoSources = [];
+        this.currentSourceIndex = 0;
+        
+        if (this.heroVideo) {
+            const sources = this.heroVideo.querySelectorAll('source');
+            
+            let orderedSources = Array.from(sources);
+            orderedSources.sort((a, b) => {
+                const orderA = parseInt(a.dataset.order || 0);
+                const orderB = parseInt(b.dataset.order || 0);
+                return orderA - orderB;
+            });
+            
+            this.videoSources = orderedSources;
+        }
         
         this.imageDisplayTime = 3000;
         this.isVideoPlaying = false;
@@ -121,13 +137,14 @@ class AutoVideoBackground {
         if (!this.heroVideo || !this.heroImage) return;
         
         this.heroVideo.muted = true;
-        this.heroVideo.loop = true;
         this.heroVideo.setAttribute('playsinline', '');
         this.heroVideo.controls = false;
         
+        this.heroVideo.removeAttribute('loop');
+        
         this.setupEventListeners();
         this.startImageTimer();
-        this.preloadVideo();
+        this.prepareCurrentVideo();
     }
     
     setupEventListeners() {
@@ -135,6 +152,13 @@ class AutoVideoBackground {
         this.heroVideo.addEventListener('loadeddata', () => this.onVideoLoaded());
         this.heroVideo.addEventListener('error', (e) => this.onVideoError(e));
         this.heroVideo.addEventListener('play', () => this.onVideoStarted());
+        
+        if (this.isSequential) {
+            this.heroVideo.addEventListener('ended', () => this.onVideoEnded());
+        } else {
+            this.heroVideo.loop = true;
+        }
+        
         this.heroVideo.addEventListener('pause', () => {
             if (this.isVideoPlaying) {
                 this.heroVideo.play().catch(e => console.log('خطا در ادامه پخش:', e));
@@ -148,8 +172,14 @@ class AutoVideoBackground {
         }, this.imageDisplayTime);
     }
     
-    preloadVideo() {
-        this.heroVideo.load();
+    prepareCurrentVideo() {
+        if (!this.heroVideo || this.videoSources.length === 0) return;
+        
+        if (this.isSequential) {
+            const currentSource = this.videoSources[this.currentSourceIndex];
+            this.heroVideo.src = currentSource.src;
+            this.heroVideo.load();
+        }
     }
     
     onVideoReady() {
@@ -168,10 +198,38 @@ class AutoVideoBackground {
             this.loadingIndicator.classList.add('hidden');
         }
         this.isVideoPlaying = false;
+        
+        if (this.isSequential) {
+            this.playNextVideo();
+        }
     }
     
     onVideoStarted() {
         this.isVideoPlaying = true;
+    }
+    
+    onVideoEnded() {
+        if (this.isSequential) {
+            this.playNextVideo();
+        }
+    }
+    
+    playNextVideo() {
+        if (this.videoSources.length <= 1) return;
+        
+        this.currentSourceIndex = (this.currentSourceIndex + 1) % this.videoSources.length;
+        
+        const nextSource = this.videoSources[this.currentSourceIndex];
+        this.heroVideo.src = nextSource.src;
+        this.heroVideo.load();
+        
+        const playNextVideo = () => {
+            this.heroVideo.play()
+                .catch(e => console.log('خطا در پخش ویدیوی بعدی:', e));
+            this.heroVideo.removeEventListener('loadeddata', playNextVideo);
+        };
+        
+        this.heroVideo.addEventListener('loadeddata', playNextVideo);
     }
     
     transitionToVideo() {
@@ -204,10 +262,12 @@ class AutoVideoBackground {
     handlePlaybackError() {
         if (this.heroImage) this.heroImage.classList.remove('image-hidden');
         if (this.heroVideo) this.heroVideo.classList.remove('video-visible');
+        
+        if (this.isSequential) {
+            this.playNextVideo();
+        }
     }
 }
-
-// کد carousel لینک‌ها (کد موجود)
 $(document).ready(function(){
     $('#links-carousel').owlCarousel({
         rtl: true,
@@ -221,25 +281,30 @@ $(document).ready(function(){
         smartSpeed: 1000,
         responsive: {
             0: {
-                items:3
+                items:3.2
             },
-            576: {
+            500: {
                 items: 4
             },
-            768: {
+            700: {
                 items: 5
+            },
+            830: {
+                items: 6
             },
             992: {
                 items: 6
             },
-            1200: {
+            1100: {
                 items: 7
+            },
+            1400: {
+                items: 8
             },
         }
     });
 });
 
-// Search dropdown functionality (کد موجود)
 function toggleSearch() {
     const dropdown = document.getElementById('searchDropdown');
     const overlay = document.querySelector('.search-overlay');
@@ -275,70 +340,40 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// کد tooltip برای نقاط نقشه
 $(document).ready(function(){
-    // راه‌اندازی شمارنده
-    new CounterAnimation();
     
-    // راه‌اندازی ویدیو پس‌زمینه
+    new CounterAnimation();
     new AutoVideoBackground();
     
-    // Tooltip برای نقاط نقشه
+   
     $('.map-point').each(function() {
         const point = $(this);
         
-        // ساخت tooltip مخصوص هر نقطه
-        const tooltip = $('<div class="point-tooltip"></div>');
-        $('body').append(tooltip);
         
-        // محتوای tooltip
+        const tooltip = $('<div class="point-tooltip"></div>');
+        point.append(tooltip);
+        
+        
         const city = point.data('city');
         const projects = point.data('projects');
-        const description = point.data('description');
         
         let content = `<strong>${city}</strong>`;
         if (projects) content += `<br>${projects} پروژه فعال`;
-        if (description) content += `<br>${description}`;
         
         tooltip.html(content);
         
-        // Events
-        point.on('mouseenter', function(e) {
+      
+        point.on('mouseenter', function() {
             tooltip.addClass('show');
-            updateTooltipPosition(e, tooltip);
         });
         
         point.on('mouseleave', function() {
             tooltip.removeClass('show');
         });
-        
-        point.on('mousemove', function(e) {
-            updateTooltipPosition(e, tooltip);
-        });
     });
-    
-    // تابع موقعیت tooltip
-    function updateTooltipPosition(e, tooltip) {
-        const margin = 15;
-        let x = e.pageX + margin;
-        let y = e.pageY - tooltip.outerHeight() - margin;
-        
-        // چک مرزها
-        if (x + tooltip.outerWidth() > $(window).width()) {
-            x = e.pageX - tooltip.outerWidth() - margin;
-        }
-        if (y < 0) {
-            y = e.pageY + margin;
-        }
-        
-        tooltip.css({
-            left: x + 'px',
-            top: y + 'px'
-        });
-    }
 });
 
-// کلاس مدیریت مودال ویدیو
+
 class VideoModal {
     constructor() {
         this.modal = null;
@@ -350,15 +385,12 @@ class VideoModal {
     }
     
     init() {
-        // پیدا کردن دکمه‌های watch-video
         this.watchButtons = document.querySelectorAll('.watch-video');
         
         if (this.watchButtons.length === 0) return;
         
-        // پیدا کردن مودال در HTML
         this.findModalElements();
         
-        // اضافه کردن event listeners
         this.setupEventListeners();
     }
     
@@ -370,7 +402,6 @@ class VideoModal {
         this.closeBtn = document.getElementById('closeVideoModal');
         this.retryBtn = document.getElementById('retryVideo');
         
-        // اگر مودال در HTML وجود ندارد، خطا نده
         if (!this.modal) {
             console.warn('مودال ویدیو در HTML پیدا نشد');
             return;
@@ -380,12 +411,10 @@ class VideoModal {
     setupEventListeners() {
         if (!this.modal) return;
         
-        // دکمه‌های watch-video
         this.watchButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // گرفتن آدرس ویدیو از data-video attribute
                 const videoSrc = button.dataset.video || button.getAttribute('data-video');
                 
                 if (videoSrc) {
@@ -397,28 +426,24 @@ class VideoModal {
             });
         });
         
-        // دکمه بستن
         if (this.closeBtn) {
             this.closeBtn.addEventListener('click', () => {
                 this.closeModal();
             });
         }
         
-        // کلیک روی پس‌زمینه
         this.modal.addEventListener('click', (e) => {
             if (e.target === this.modal) {
                 this.closeModal();
             }
         });
         
-        // کلید ESC
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.modal.classList.contains('show')) {
                 this.closeModal();
             }
         });
         
-        // event های ویدیو
         if (this.video) {
             this.video.addEventListener('loadeddata', () => {
                 this.onVideoLoaded();
@@ -433,7 +458,6 @@ class VideoModal {
             });
         }
         
-        // دکمه تلاش مجدد
         if (this.retryBtn) {
             this.retryBtn.addEventListener('click', () => {
                 this.retryVideo();
@@ -444,32 +468,26 @@ class VideoModal {
     openModal() {
         if (!this.modal || !this.currentVideoSrc) return;
         
-        // نمایش مودال
         this.modal.classList.add('show');
         document.body.classList.add('modal-open');
         
-        // reset state
         if (this.loading) this.loading.style.display = 'flex';
         if (this.error) this.error.style.display = 'none';
         if (this.video) this.video.style.display = 'none';
         
-        // شروع بارگذاری ویدیو
         this.loadVideo();
     }
     
     closeModal() {
         if (!this.modal) return;
         
-        // بستن مودال
         this.modal.classList.remove('show');
         document.body.classList.remove('modal-open');
         
-        // متوقف کردن ویدیو
         if (this.video) {
             this.video.pause();
             this.video.currentTime = 0;
             
-            // reset src برای توقف کامل بارگذاری
             setTimeout(() => {
                 this.video.src = '';
                 this.video.load();
@@ -480,37 +498,31 @@ class VideoModal {
     loadVideo() {
         if (!this.video || !this.currentVideoSrc) return;
         
-        // تنظیم src و شروع بارگذاری
         this.video.src = this.currentVideoSrc;
         this.video.load();
     }
     
     onVideoLoaded() {
-        // ویدیو بارگذاری شد
         if (this.loading) this.loading.style.display = 'none';
         if (this.error) this.error.style.display = 'none';
         if (this.video) this.video.style.display = 'block';
         
-        // پخش خودکار (اختیاری)
         this.video.play().catch(error => {
             console.log('پخش خودکار ممکن نیست:', error);
         });
     }
     
     onVideoError() {
-        // خطا در بارگذاری
         if (this.loading) this.loading.style.display = 'none';
         if (this.video) this.video.style.display = 'none';
         if (this.error) this.error.style.display = 'block';
     }
     
     onVideoEnded() {
-        // پایان ویدیو (اختیاری: بستن خودکار مودال)
         // this.closeModal();
     }
     
     retryVideo() {
-        // تلاش مجدد
         if (this.error) this.error.style.display = 'none';
         if (this.loading) this.loading.style.display = 'flex';
         
@@ -520,11 +532,8 @@ class VideoModal {
     }
 }
 
-// اضافه کردن به کد اصلی
 $(document).ready(function(){
-    // کدهای قبلی...
-    
-    // راه‌اندازی مودال ویدیو
+
     new VideoModal();
 });
 
@@ -627,7 +636,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
     const submenuLinks = document.querySelectorAll('[data-submenu]');
 
-    // Open mobile menu
     if (mobileMenuToggle) {
         mobileMenuToggle.addEventListener('click', function() {
             mobileMenuToggle.classList.add('active');
@@ -637,36 +645,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Close mobile menu
     function closeMobileMenu() {
         mobileMenuToggle.classList.remove('active');
         mobileSideMenu.classList.remove('active');
         mobileMenuOverlay.classList.remove('active');
         document.body.style.overflow = '';
         
-        // Close all submenus
         document.querySelectorAll('.mobile-menu-item.has-submenu.active')
             .forEach(item => item.classList.remove('active'));
     }
 
-    // Close button
     if (mobileMenuClose) {
         mobileMenuClose.addEventListener('click', closeMobileMenu);
     }
 
-    // Overlay click
     if (mobileMenuOverlay) {
         mobileMenuOverlay.addEventListener('click', closeMobileMenu);
     }
 
-    // Submenu toggle
     submenuLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const menuItem = link.closest('.mobile-menu-item');
             const isActive = menuItem.classList.contains('active');
             
-            // Close all other submenus
             document.querySelectorAll('.mobile-menu-item.has-submenu.active')
                 .forEach(item => {
                     if (item !== menuItem) {
@@ -674,7 +676,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
 
-            // Toggle current submenu
             if (isActive) {
                 menuItem.classList.remove('active');
             } else {
@@ -683,20 +684,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Close menu on ESC key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && mobileSideMenu.classList.contains('active')) {
             closeMobileMenu();
         }
     });
 
-    // Close menu on window resize to desktop
     window.addEventListener('resize', function() {
         if (window.innerWidth >= 992 && mobileSideMenu.classList.contains('active')) {
             closeMobileMenu();
         }
     });
+     document.addEventListener('click', (e)=>{
+        if(!e.target.closest('#mobileSideMenu')&&!e.target.closest('.mobile-menu-toggle')){
+             closeMobileMenu();
+        }
+    })
 });
+
+
+
+
+
+
 
 document.addEventListener('DOMContentLoaded', function () {
  
@@ -727,7 +737,7 @@ document.addEventListener('DOMContentLoaded', function () {
       
         
 
-        if (window.innerWidth > 990) {
+       
             
             $(window).scroll(function() {
                 const currentScroll = $(this).scrollTop();
@@ -750,38 +760,224 @@ document.addEventListener('DOMContentLoaded', function () {
                 lastScrollTop = currentScroll;
             });
            
-        }else if( window,innerWidth <= 992){
-            function updateHeights() {  
-                $search.css('top', `${downHeaderHeight + rowHeight }`);
-            }
-            
-            updateHeights();
-            
-            $(window).scroll(function() {
-                const currentScroll = $(this).scrollTop();
-                if (currentScroll > 100) {
-                    if (currentScroll > lastScrollTop && isHeaderVisible) {
-                        $headerRow.addClass('row-hidden');
-                        $downHeader.addClass('header-up');
-                        $search.addClass('header-up');
-                        isHeaderVisible = false;
-                    }
-                   
-                } else {
-                    $headerRow.removeClass('row-hidden');
-                    $downHeader.removeClass('header-up');
-                    $search.removeClass('header-up');
-                    isHeaderVisible = true;
-                }
-                
-                lastScrollTop = currentScroll;
-            });
+        
             
             let resizeTimer;
             $(window).resize(function() {
                 clearTimeout(resizeTimer);
                 resizeTimer = setTimeout(updateHeights, 250);
             });
-        }
+        
         
     });
+
+
+    // Mobile menu toggle for main mega menu
+$('.has-megamenu > .nav-link').on('click', function(e) {
+    if (window.innerWidth <= 991) {
+        e.preventDefault();
+        const parent = $(this).parent();
+        
+        // Toggle active class
+        parent.toggleClass('active');
+        
+        // Show/hide megamenu container
+        if (parent.hasClass('active')) {
+            parent.find('.megamenu-container').slideDown(300);
+        } else {
+            parent.find('.megamenu-container').slideUp(300);
+        }
+    }
+});
+
+$('.megamenu-container').on('click', function(e) {
+    e.stopPropagation();
+});
+
+$(window).on('resize', function() {
+    if (window.innerWidth > 991) {
+        $('.megamenu-container').css('display', '');
+        
+        if (!$('.category-item.active').length) {
+            $('.category-item').first().addClass('active');
+            const defaultCategory = $('.category-item').first().data('category');
+            $(`#${defaultCategory}-content`).addClass('active');
+        }
+    }
+});
+
+$(document).ready(function() {
+    if (!$('.category-item.active').length) {
+        $('.category-item').first().addClass('active');
+        const defaultCategory = $('.category-item').first().data('category');
+        $(`#${defaultCategory}-content`).addClass('active');
+    }
+    
+    $('.category-item').on('click', function(e) {
+        e.preventDefault();
+        
+        $('.category-item').removeClass('active');
+        
+        $(this).addClass('active');
+        
+        $('.subcategory-content').removeClass('active');
+        
+        const category = $(this).data('category');
+        $(`#${category}-content`).addClass('active');
+    });
+});
+$(document).ready(function() {
+    const defaultCategory = $('.category-item').first().data('category');
+    $('.category-item').first().addClass('active');
+    $(`#${defaultCategory}-content`).addClass('active');
+    
+    $('.category-item').on('mouseenter', function() {
+        if (window.innerWidth > 991) {
+            const categoryId = $(this).data('category');
+            
+            $('.category-item').removeClass('active');
+            $('.subcategory-content').removeClass('active');
+            
+            $(this).addClass('active');
+            $(`#${categoryId}-content`).addClass('active');
+        }
+    });
+    
+    $('.category-item').on('click', function(e) {
+        if (window.innerWidth <= 991) {
+            e.preventDefault();
+            const categoryId = $(this).data('category');
+            
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+                $(`#${categoryId}-content`).removeClass('active');
+            } else {
+                $('.category-item').removeClass('active');
+                $('.subcategory-content').removeClass('active');
+                
+                $(this).addClass('active');
+                $(`#${categoryId}-content`).addClass('active');
+            }
+        }
+    });
+    
+    $('.subcategory-content').on('mouseenter', function() {
+        if (window.innerWidth > 991) {
+            $(this).addClass('active');
+        }
+    });
+    
+    $('.has-megamenu > .nav-link').on('click', function(e) {
+        if (window.innerWidth <= 991) {
+            e.preventDefault();
+            const parent = $(this).parent();
+            
+            parent.toggleClass('active');
+            
+            if (parent.hasClass('active')) {
+                parent.find('.megamenu-container').slideDown(300);
+            } else {
+                parent.find('.megamenu-container').slideUp(300);
+            }
+        }
+    });
+    
+    $('.megamenu-container').on('click', function(e) {
+        e.stopPropagation();
+    });
+    
+    $(window).on('resize', function() {
+        if (window.innerWidth > 991) {
+            // Reset for desktop
+            $('.megamenu-container').css('display', '');
+            
+            if (!$('.category-item.active').length) {
+                $('.category-item').first().addClass('active');
+                const defaultCategory = $('.category-item').first().data('category');
+                $(`#${defaultCategory}-content`).addClass('active');
+            }
+        }
+    });
+    
+   
+    
+   
+    function bindCategoryEvents() {
+        $('.category-item').off('mouseenter click');
+        
+        $('.category-item').on('mouseenter', function() {
+            if (window.innerWidth > 991) {
+                const categoryId = $(this).data('category');
+                
+                $('.category-item').removeClass('active');
+                $('.subcategory-content').removeClass('active');
+                
+                $(this).addClass('active');
+                $(`#${categoryId}-content`).addClass('active');
+            }
+        });
+        
+        $('.category-item').on('click', function(e) {
+            if (window.innerWidth <= 991) {
+                e.preventDefault();
+                const categoryId = $(this).data('category');
+                
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $(`#${categoryId}-content`).removeClass('active');
+                } else {
+                    $('.category-item').removeClass('active');
+                    $('.subcategory-content').removeClass('active');
+                    
+                    $(this).addClass('active');
+                    $(`#${categoryId}-content`).addClass('active');
+                }
+            }
+        });
+    }
+    
+    // Uncomment to enable dynamic loading
+    // loadDynamicCategories();
+});
+
+
+   $(document).ready(function(){
+            $('#power-carousel').owlCarousel({
+                rtl: true,
+                loop: true,
+                margin: 20,
+                nav: false,
+                dots: false,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                autoplayHoverPause: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    }
+                },
+                
+            });
+            
+           
+        });
+     $(document).ready(function(){
+            $('#activity-carousel').owlCarousel({
+                rtl: true,
+                loop: true,
+                margin: 20,
+                nav: false,
+                dots: false,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                autoplayHoverPause: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    }
+                },
+                
+            });
+            
+           
+        });
