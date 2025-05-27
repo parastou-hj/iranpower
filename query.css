@@ -3,6 +3,7 @@
     --primary-color:hsl(160.88deg 43.96% 59.41%)
 }
 
+
 @media screen and (max-width:1200px){
     .main-nav ul li {
     margin-left: 10px;
@@ -28,6 +29,12 @@ width: 100%;
 }
 
 @media screen and (max-width:992px){
+    
+    #power-carousel img, #activity-carousel img{
+    min-height: 250px;
+    max-height: 250px;
+    border-radius: 15px;
+}
     .menu-bar i{
         color: #fff;
     }
@@ -45,6 +52,7 @@ width: 100%;
     }
     .title-sec{
         margin-bottom: 10px;
+        padding-right:10px;
     }
     .title-sec h3 {
     margin-top: 0px;
@@ -53,11 +61,11 @@ width: 100%;
     font-size: 1.5rem;
     font-weight: bold;
 }
-.about-sec ul{
-    padding: 0px;
+.abouts ul{
+    padding-right: 20px;
 }
 .activies ul{
-    padding-right: 10px;
+    padding-right: 20px;
 }
 .services{
     flex-wrap: wrap;
@@ -96,6 +104,7 @@ width: 100%;
   }
   .loc-tel{
     flex-direction: column;
+    align-items:start;
   }
   .header-logo{
     padding: 0px;
@@ -121,6 +130,29 @@ width: 100%;
 
 }
 @media screen and (max-width:576px){
+ .header-top img{
+    height:50px;
+    width:70px;
+}
+.header-top{
+    font-size:.7em;
+}
+.header-top span{
+    padding-right:0px;
+}
+    .booshehr{
+position: absolute;
+  top:55%;
+  right: 54%;
+}
+.booshehr-2{
+position: absolute;
+  top:61%;
+  right: 52%;
+}
+    .about-text{
+        /*padding:10px;*/
+    }
 .baner-down{
     display: none;
 }
@@ -174,7 +206,7 @@ width: 100%;
     flex-direction: column;
 }
 .percent-sec{
-    height: 600px;
+    height:max-content;
     
 }
 .percent-item span{
@@ -200,9 +232,9 @@ width: 100%;
     padding: 30px 20px;
     border: 1px solid rgb(163, 163, 163);
     margin:0px 5px;
-    height: 140px;
-    min-height: 140px;
-    max-height: 140px;
+    height: 120px;
+    min-height: 120px;
+    max-height: 120px;
     border-radius: 15px;
      transform: translateY(3px);
     transition: transform 0.2s ease-in-out;
